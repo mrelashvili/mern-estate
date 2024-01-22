@@ -1,10 +1,10 @@
 import { GoogleAuthProvider, getAuth, signInWithPopup } from 'firebase/auth';
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import { app } from '../firebase';
+import { useDispatch } from 'react-redux';
 import { signInSuccess } from '../redux/user/userSlice';
+import { useNavigate } from 'react-router-dom';
 
-const OAuth = () => {
+export default function OAuth() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleGoogleClick = async () => {
@@ -25,13 +25,11 @@ const OAuth = () => {
           photo: result.user.photoURL,
         }),
       });
-
       const data = await res.json();
-
       dispatch(signInSuccess(data));
       navigate('/');
-    } catch (err) {
-      console.log('Could not sign in with google', err);
+    } catch (error) {
+      console.log('could not sign in with google', error);
     }
   };
   return (
@@ -43,6 +41,4 @@ const OAuth = () => {
       Continue with google
     </button>
   );
-};
-
-export default OAuth;
+}
